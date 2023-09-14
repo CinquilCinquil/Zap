@@ -15,22 +15,30 @@ public class Main
 
         int line = input.nextInt();
 
-        //we instantiate the objects
-        ti = new TextInputObject();
-        to = new TextOutputObject();
-        //we call the start method to start the threads for input and output
-        ti.start();
-        to.start();
+        System.out.println("LETS GO");
 
-        System.out.println("AAAAAAAAA");
+        Networking netObj;
+        String title;
 
         if (line == 0)
         {
-            Networking client = new Networking("127.0.0.1", 5000, ti, to);
+            netObj = new Networking("127.0.0.1", 5000);
+            title = "Client - Zap";
         }
         else {
-            Networking server = new Networking(5000, ti, to);
+            netObj = new Networking(5000);
+            title = "Server - Zap";
         }
+
+        GUI g = new GUI(title, netObj);
+
+        ti = new TextInputObject(netObj);
+        to = new TextOutputObject(netObj, g);
+
+        ti.start();
+        to.start();
+
+        netObj.start(); // starting the while true loop
  
     }
 }

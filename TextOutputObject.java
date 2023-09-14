@@ -6,9 +6,13 @@ public class TextOutputObject implements Runnable {
 
     public String lastOutput = "-";
     private String lastlastOutput = "-";
+    Networking netObj;
+    GUI g;
 
     //Method that gets called when the object is instantiated
-    public TextOutputObject() {
+    public TextOutputObject(Networking netObj, GUI g) {
+        this.netObj = netObj;
+        this.g = g;
         System.out.println("Created TextOutputObject");
     }
 
@@ -33,10 +37,13 @@ public class TextOutputObject implements Runnable {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {System.out.println("TEXT OUTPUT INTERUPTED");}
             
+            lastOutput = netObj.lastOuput;
             Boolean b = new String(lastlastOutput).equals(lastOutput);
+
             if (!b)
             {
                 System.out.println("i" + Integer.toString(i) + ": " + lastOutput);
+                g.pushMsg(lastOutput);
                 lastlastOutput = lastOutput;
             }
         }

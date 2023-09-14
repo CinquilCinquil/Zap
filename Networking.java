@@ -13,36 +13,27 @@ public class Networking {
     private DataInputStream in = null;
     private DataInputStream input = null;
 
-    public TextInputObject inputObj;
-    public TextOutputObject outputObj;
+    public String lastInput = "-";
+    public String lastOuput = "-";
 
-    private String lastLine = "-";
-
-    public Networking(int port, TextInputObject inputObj, TextOutputObject outputObj) // Server constructor
+    public Networking(int port) // Server constructor
     {
-        this.inputObj = inputObj;
-        this.outputObj = outputObj;
-
         connectServer(port);
- 
-        exchangeMsgs();
- 
-        disconnect();
     }
 
-    public Networking(String address, int port, TextInputObject inputObj, TextOutputObject outputObj) // Client constructor
+    public Networking(String address, int port) // Client constructor
     {
-        this.inputObj = inputObj;
-        this.outputObj = outputObj;
-
         connectClient(address, port);
- 
+    }
+
+    // --------------------------------- Networking
+
+    public void start()
+    {
         exchangeMsgs();
  
         disconnect();
     }
-
-    // --------------------------------- Networking    
 
     private void connectServer(int port)
     {
@@ -126,8 +117,8 @@ public class Networking {
     public String sendLine(String line)
     {
         try {
-
-            line = inputObj.lastInput;
+        
+            line = lastInput;
             out.writeUTF(line); // sending info
         }
 
@@ -139,10 +130,8 @@ public class Networking {
     public String receiveLine(String line)
     {
         try {
-
             line = in.readUTF(); // receiving info
-            outputObj.lastOutput = "other: " + line;
-            
+            lastOuput = line;
         }
 
         catch (IOException i) {System.out.println(i);}

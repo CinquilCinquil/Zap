@@ -6,9 +6,11 @@ public class TextInputObject implements Runnable {
    
   private Scanner inputReader = new Scanner(System.in);
   public String lastInput = "-";
+  public Networking netObj;
 
   //Method that gets called when the object is instantiated
-  public TextInputObject() {
+  public TextInputObject(Networking netObj) {
+    this.netObj = netObj;
     System.out.println("Created TextInputObject");
   }
 
@@ -22,7 +24,6 @@ public class TextInputObject implements Runnable {
       thread.start();
     }
   }
-
   //this method gets called by the thread.start(); from above
   @Override
   public void run() {
